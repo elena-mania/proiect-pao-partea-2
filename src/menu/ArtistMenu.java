@@ -1,29 +1,12 @@
 package menu;
 
-import services.PlaylistService;
-import services.SongService;
 import services.UserService;
-
-import java.sql.SQLException;
 import java.util.Scanner;
 
 public class ArtistMenu {
     private static ArtistMenu instance;
-    private PlaylistService playlistService;
-    private Scanner scanner;
-    private SongService songService;
-    private ArtistMenu() {
-        try {
-            this.playlistService=new PlaylistService();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        try {
-            this.songService=new SongService();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        this.scanner= new Scanner(System.in);}
+
+    private ArtistMenu() {}
 
     public static ArtistMenu getInstance() {
         if(instance==null)

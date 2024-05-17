@@ -9,14 +9,12 @@ import java.util.Scanner;
 public class LoginMenu{
     private static LoginMenu instance;
     private UserService userService;
-    private Scanner scanner;
     private LoginMenu() {
         try {
             this.userService=new UserService();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        this.scanner= new Scanner(System.in);
     }
 
     public static LoginMenu getInstance() {

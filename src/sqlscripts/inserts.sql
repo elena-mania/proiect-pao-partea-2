@@ -15,10 +15,10 @@ values (7,'Parazitii','cheloo@yahoo.ro','parazitii','hip-hop',38);
 insert into dbproiectpao.artist (id,name,email,password,genre,monthlyEarnings)
 values (8,'Salt n Pepa','record@label.fr','parole','hip-hop',26);
 
-insert into dbproiectpao.listener (id, name, email, password, hasPaid)
-values(9,'admin','admin@yahoo.com','admin',true);
-insert into dbproiectpao.listener (id, name, email, password, hasPaid)
-values(10,'ana-maria','anutza@gmail.com','pass',true);
+insert into dbproiectpao.listener (id, name, email, password, hasPaid, monthlySubscription)
+values(9,'admin','admin@yahoo.com','admin',true,12.99);
+insert into dbproiectpao.listener (id, name, email, password, hasPaid,monthlySubscription)
+values(10,'ana-maria','anutza@gmail.com','pass',true,12.99);
 
 insert into dbproiectpao.song (id,idArtist,length,title)
 values (1,4,6.50,'Time');

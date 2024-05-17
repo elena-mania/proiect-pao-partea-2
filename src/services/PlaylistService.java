@@ -17,7 +17,6 @@ import static utils.Constants.AUDIT_FILE;
 import static utils.PrimaryKeyGenerator.getNextPrimaryKeyJoinTables;
 
 public class PlaylistService {
-    //private static int idPlaylistCounter=getNextPrimaryKeyJoinTables("playlist","album","id"); //pr initializarea playlist urilor
     private PlaylistRepositoryService dbListService;
     private UserRepositoryService dbUserService;
     private SongRepositoryService dbSongService;
@@ -55,7 +54,16 @@ public class PlaylistService {
     }
 
     public void read(int idUser){
-        if("artist".equals(userIdValidation(idUser))){
+        if("listener".equals(userIdValidation(idUser))){
+            System.out.println("Your playlists are: ");
+            List<Playlist> list=dbListService.getAllPlaylists();
+            for(Playlist p: list){
+                if(p.getUserId()==idUser){
+                    System.out.println("Playlist no. "+p.getPlaylistId());
+                    FileManagement.fileWritingChar(AUDIT_FILE,"citim playlist-ul "+ p.getPlaylistId());}
+
+            }
+        } else if("artist".equals(userIdValidation(idUser))){
             System.out.println("Your albums are: "); //vreau ca pt fiecare album care are drept idAuthor==idUser sa afisez informatii
             List<Album> albums=dbListService.getAllAlbums();
             for(Album a: albums){
@@ -64,15 +72,6 @@ public class PlaylistService {
                     FileManagement.fileWritingChar(AUDIT_FILE,"citim albumul "+ a.getTitle());}
             }
 
-        }else if("listener".equals(userIdValidation(idUser))){
-            System.out.println("Your playlists are: ");
-            List<Playlist> list=dbListService.getAllPlaylists();
-            for(Playlist p: list){
-                if(p.getPlaylistId()==idUser){
-                    System.out.println("Playlist no. "+p.getPlaylistId());
-                    FileManagement.fileWritingChar(AUDIT_FILE,"citim playlist-ul "+ p.getPlaylistId());}
-
-            }
         }else System.out.println("Invalid id!");
     }
 
@@ -86,7 +85,7 @@ public class PlaylistService {
                 dbListService.updateList(inputAlbumInfo(idUser,idAlbum,false),idAlbum);
                 FileManagement.fileWritingChar(AUDIT_FILE,"actualizam albumul cu id-ul "+ idAlbum);
             } catch (SQLException e) {
-                throw new RuntimeException(e);
+                System.out.println("Unable to perform action " + e.getSQLState() + " " + e.getMessage());
             }
         }else System.out.println("Invalid id!");
     }
@@ -124,20 +123,20 @@ public class PlaylistService {
                 playlist=null; //o facem ca sa impedicam userul sa editeze alt playlist decat al lui
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            System.out.println("Unable to perform action " + e.getSQLState() + " " + e.getMessage());
         }
         if (playlist != null) {
             Song song= null;
             try {
                 song = dbSongService.getSongById(idSong);
             } catch (SQLException e) {
-                throw new RuntimeException(e);
+                System.out.println("Unable to perform action " + e.getSQLState() + " " + e.getMessage());
             }
             if(song!=null){
                 try {
                     dbListService.addSongToPlaylist(idPlaylist, song);
                 } catch (SQLException e) {
-                    throw new RuntimeException(e);
+                    System.out.println("Unable to perform action " + e.getSQLState() + " " + e.getMessage());
                 }
                 System.out.println("Song added to playlist successfully!");
             }

@@ -30,7 +30,7 @@ public class SongService {
             String title = in.nextLine();
             System.out.println("Enter the length of the song: ");
             double length = in.nextDouble();
-            in.nextLine();  // Consume the newline character
+            in.nextLine();
 
             Song song = new Song(length, title, idArtist, getNextPrimaryKey("song","id"));
             try {
@@ -102,7 +102,6 @@ public class SongService {
                 System.out.println("The song was successfully updated!");
             } catch (SQLException e) {
                 System.out.println("Unable to perform action " + e.getSQLState() + " " + e.getMessage());
-                //throw new RuntimeException(e);
             }
         } else {
             System.out.println("You don't have permission to edit this song!");
@@ -120,7 +119,6 @@ public class SongService {
                 FileManagement.fileWritingChar(AUDIT_FILE, "stergem piesa cu id-ul "+idSong);
             } catch (SQLException e) {
                 System.out.println("Unable to perform action " + e.getSQLState() + " " + e.getMessage());
-                //throw new RuntimeException(e);
             }
         }
         else System.out.println("Invalid action!");
@@ -131,7 +129,7 @@ public class SongService {
             if(dbSongService.getSongById(idSong).getIdArtist()==idUser)
                 return true;
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            System.out.println("Unable to perform action " + e.getSQLState() + " " + e.getMessage());
         }
         return false;
     }
@@ -144,7 +142,7 @@ public class SongService {
                     return "listener";
                 }
             } catch (SQLException e) {
-                throw new RuntimeException(e);
+                System.out.println("Unable to perform action " + e.getSQLState() + " " + e.getMessage());
             }
         }
         return null;

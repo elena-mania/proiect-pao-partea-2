@@ -32,7 +32,7 @@ CREATE TABLE dbproiectpao.listener (
                                        email VARCHAR(100) NULL,
                                        password VARCHAR(100) NULL,
                                        hasPaid BOOLEAN,
-                                       monthlySubscription DOUBLE NULL,
+                                       monthlySubscription DOUBLE DEFAULT 12.99,
                                        PRIMARY KEY (id)
 );
 
