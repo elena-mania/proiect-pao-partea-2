@@ -22,7 +22,6 @@ public class UserService {
         User user=createUser(typeOfUser);
         System.out.println("Congratulations, your accound has been successfully created!");
         user.setUserId(idUserCounter);
-        System.out.println("Your id is: "+idUserCounter);
         try {
             dbService.addUser(user);
             FileManagement.fileWritingChar("audit.csv", "adaugam persoana " + user.getUserName());
@@ -50,7 +49,6 @@ public class UserService {
             dbService.updateUser(user,user.getUserId());
             FileManagement.fileWritingChar("audit.csv", "actualizam persoana " + user.getUserName());
         }catch (SQLException e) {
-            //throw new RuntimeException(e);
             System.out.println("Unable to perform action " + e.getSQLState() + " " + e.getMessage());
         }
     }
