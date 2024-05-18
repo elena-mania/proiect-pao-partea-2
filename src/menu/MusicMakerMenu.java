@@ -37,8 +37,9 @@ public class MusicMakerMenu {
         System.out.println("4. Update album");
         System.out.println("5. Create song");
         System.out.println("6. Update song");
-        System.out.println("7. Add a song to a playlist");
-        System.out.println("8. Exit");
+        System.out.println("7. Delete song");
+        System.out.println("8. Add a song to a playlist");
+        System.out.println("9. Exit");
     }
 
     public void handleInput() {
@@ -71,15 +72,18 @@ public class MusicMakerMenu {
                     songService.update();
                     break;
                 case 7:
-                    addSongToAlbum();
+                    songService.delete();
                     break;
                 case 8:
+                    addSongToAlbum();
+                    break;
+                case 9:
                     System.out.println("Exiting...");
                     break;
                 default:
                     System.out.println("Invalid choice. Please try again.");
             }
-        } while (choice != 8);
+        } while (choice != 9);
     }
     private void addSongToAlbum(){
         Scanner scanner=new Scanner(System.in);

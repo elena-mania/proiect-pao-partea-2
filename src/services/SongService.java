@@ -38,7 +38,6 @@ public class SongService {
                 FileManagement.fileWritingChar(AUDIT_FILE,"adaugam piesa "+ song.getTitle());
             } catch (SQLException e) {
                 System.out.println("Unable to perform action " + e.getSQLState() + " " + e.getMessage());
-                //throw new RuntimeException(e);
             }
         } else {
             System.out.println("The input id is not an artist's id!");

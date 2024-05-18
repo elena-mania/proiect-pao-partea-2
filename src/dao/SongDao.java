@@ -19,6 +19,16 @@ public class SongDao implements DaoInterface<Song>{
         return songDao;
     }
     @Override
+    public void create(Song song) throws SQLException{
+        String sql = "INSERT INTO dbproiectpao.song VALUES (?, ?, ?, ?);";
+        try(PreparedStatement statement = connection.prepareStatement(sql);) {
+            statement.setInt(1, song.getSongId());
+            statement.setInt(2, song.getIdArtist());
+            statement.setDouble(3,song.getLength());
+            statement.setString(4,song.getTitle());
+            statement.executeUpdate();
+        }}
+    @Override
     public Song read(int id) throws SQLException {
         String sql ="SELECT * FROM dbproiectpao.song a WHERE a.id =?";
         ResultSet rs = null;
@@ -56,22 +66,28 @@ public class SongDao implements DaoInterface<Song>{
         }
     }
     @Override
-    public void delete(int id) throws SQLException{ //int id
-        String sql = "DELETE FROM dbproiectpao.song WHERE id = ?";
-        try(PreparedStatement statement = connection.prepareStatement(sql);) {
-            statement.setInt(1, id);
-            statement.executeUpdate();
-        }
+    public void delete(int id) throws SQLException{
+            String deleteSongSql = "DELETE FROM dbproiectpao.song WHERE id = ?";
+            String deleteAlbumSongSql = "DELETE FROM dbproiectpao.album_song WHERE idSong = ?";
+            String deletePlaylistsSongSql = "DELETE FROM dbproiectpao.playlist_song WHERE idSong = ?";
 
+            try (PreparedStatement deleteSongStatement = connection.prepareStatement(deleteSongSql);
+                 PreparedStatement deleteAlbumSongStatement = connection.prepareStatement(deleteAlbumSongSql);
+                 PreparedStatement deletePlaylistsSongStatement = connection.prepareStatement(deletePlaylistsSongSql)) {
+                connection.setAutoCommit(false);
+                deleteAlbumSongStatement.setInt(1, id);
+                deleteAlbumSongStatement.executeUpdate();
+                deletePlaylistsSongStatement.setInt(1, id);
+                deletePlaylistsSongStatement.executeUpdate();
+                deleteSongStatement.setInt(1, id);
+                deleteSongStatement.executeUpdate();
+                connection.commit();
+
+            } catch (SQLException e) {
+                connection.rollback();
+                throw e;
+            } finally {
+                connection.setAutoCommit(true);
+            }
     }
-    @Override
-    public void create(Song song) throws SQLException{
-        String sql = "INSERT INTO dbproiectpao.song VALUES (?, ?, ?, ?);";
-        try(PreparedStatement statement = connection.prepareStatement(sql);) {
-            statement.setInt(1, song.getSongId());
-            statement.setInt(2, song.getIdArtist());
-            statement.setDouble(3,song.getLength());
-            statement.setString(4,song.getTitle());
-            statement.executeUpdate();
-        }}
 }

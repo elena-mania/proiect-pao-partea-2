@@ -96,27 +96,41 @@ public class ArtistDao implements DaoInterface<Artist>{
 
     }
     public static double monthlyEarningsCalculator(Connection connection, int idArtist) throws SQLException {
-        String sql = "SELECT COUNT(DISTINCT song.id) AS song_count, COUNT(DISTINCT playlist_song.idPlaylist) AS playlist_count " +
+        String getIncomeSql = "SELECT monthlyEarnings FROM dbproiectpao.artist WHERE id = ?";
+        String calculateEarningsSql = "SELECT COUNT(DISTINCT song.id) AS song_count, COUNT(DISTINCT playlist_song.idPlaylist) AS playlist_count " +
                 "FROM dbproiectpao.song " +
                 "JOIN dbproiectpao.playlist_song ON song.id = playlist_song.idSong " +
                 "WHERE song.idArtist = ? " +
                 "GROUP BY song.idArtist";
 
-        double sum = 0;
-
-        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            preparedStatement.setInt(1, idArtist);
-            try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                if (resultSet.next()) {
-                    int songCount = resultSet.getInt("song_count");
-                    int playlistCount = resultSet.getInt("playlist_count");
-                    sum += songCount * playlistCount *12.99;//formula de calcul
+        double existingIncome = 0.0;
+        double newIncome = 0.0;
+        //gasim existing income
+        try (PreparedStatement getIncomeStmt = connection.prepareStatement(getIncomeSql)) {
+            getIncomeStmt.setInt(1, idArtist);
+            try (ResultSet rs = getIncomeStmt.executeQuery()) {
+                if (rs.next()) {
+                    existingIncome = rs.getDouble("monthlyEarnings");
                 }
             }
         }
 
-        return sum;
+        //recalculam
+        try (PreparedStatement calculateEarningsStmt = connection.prepareStatement(calculateEarningsSql)) {
+            calculateEarningsStmt.setInt(1, idArtist);
+            try (ResultSet rs = calculateEarningsStmt.executeQuery()) {
+                if (rs.next()) {
+                    int songCount = rs.getInt("song_count");
+                    int playlistCount = rs.getInt("playlist_count");
+                    newIncome = songCount * playlistCount * 12.99; // formula pentru calculalarea noului venit
+                }
+            }
+        }
+
+        // le adaugam
+        return existingIncome + newIncome;
     }
+
 
     private List<Integer> getSongsByArtistId(int artistId) throws SQLException {
         List<Integer> songIds = new ArrayList<>();

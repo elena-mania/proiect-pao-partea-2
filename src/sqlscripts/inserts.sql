@@ -19,6 +19,8 @@ insert into dbproiectpao.listener (id, name, email, password, hasPaid, monthlySu
 values(9,'admin','admin@yahoo.com','admin',true,12.99);
 insert into dbproiectpao.listener (id, name, email, password, hasPaid,monthlySubscription)
 values(10,'ana-maria','anutza@gmail.com','pass',true,12.99);
+insert into dbproiectpao.listener (id, name, email, password, hasPaid)
+values(11,'andrei','andreiand@gmail.ro','parola',false);
 
 insert into dbproiectpao.song (id,idArtist,length,title)
 values (1,4,6.50,'Time');

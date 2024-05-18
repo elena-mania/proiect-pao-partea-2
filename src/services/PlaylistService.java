@@ -34,7 +34,7 @@ public class PlaylistService {
         if("artist".equals(userIdValidation(idUser))){
             try {
                 dbListService.addList(inputAlbumInfo(idUser,0,true),"album");
-                FileManagement.fileWritingChar(AUDIT_FILE,"adaugam albumul ");
+                FileManagement.fileWritingChar(AUDIT_FILE,"adaugam album");
                 System.out.println("Album created successfully!");
             } catch (SQLException e) {
                 System.out.println("Unable to perform action " + e.getSQLState() + " " + e.getMessage());
@@ -44,7 +44,7 @@ public class PlaylistService {
             try {
                 Playlist playlist=new Playlist(idUser,getNextPrimaryKeyJoinTables("playlist","album","id"));
                 dbListService.addList(playlist,"playlist");
-                FileManagement.fileWritingChar(AUDIT_FILE,"adaugam playlist-ul ");
+                FileManagement.fileWritingChar(AUDIT_FILE,"adaugam playlist");
                 System.out.println("Playlist created successfully, here's the id: " +playlist.getPlaylistId());
             } catch (SQLException e) {
                 System.out.println("Unable to perform action " + e.getSQLState() + " " + e.getMessage());
@@ -69,7 +69,7 @@ public class PlaylistService {
             for(Album a: albums){
                 if(a.getUserId()==idUser){
                     System.out.println("Album no. "+a.getPlaylistId()+", title: "+a.getTitle()+", released: "+a.getReleaseDate()+", genre: "+a.getGenre());
-                    FileManagement.fileWritingChar(AUDIT_FILE,"citim albumul "+ a.getTitle());}
+                    FileManagement.fileWritingChar(AUDIT_FILE,"citim albumul cu id-ul "+ a.getPlaylistId());}
             }
 
         }else System.out.println("Invalid id!");

@@ -1,30 +1,11 @@
 DROP TABLE IF EXISTS dbproiectpao.album_song;
 DROP TABLE IF EXISTS dbproiectpao.playlist_song;
-DROP TABLE IF EXISTS dbproiectpao.artist;
-DROP TABLE IF EXISTS dbproiectpao.listener;
 DROP TABLE IF EXISTS dbproiectpao.song;
 DROP TABLE IF EXISTS dbproiectpao.album;
+DROP TABLE IF EXISTS dbproiectpao.artist;
 DROP TABLE IF EXISTS dbproiectpao.playlist;
+DROP TABLE IF EXISTS dbproiectpao.listener;
 
-CREATE TABLE dbproiectpao.album (
-                                    id INT NOT NULL,
-                                    releaseDate VARCHAR(50) NULL,
-                                    genre VARCHAR(50) NULL,
-                                    title VARCHAR(50) NULL,
-                                    userId INT NOT NULL,
-                                    PRIMARY KEY (id),
-                                    FOREIGN KEY (userId) REFERENCES artist(id)
-);
-
-CREATE TABLE dbproiectpao.artist (
-                                     id INT NOT NULL,
-                                     name VARCHAR(100) NULL,
-                                     email VARCHAR(100) NULL,
-                                     password VARCHAR(100) NULL,
-                                     genre VARCHAR(50) NULL,
-                                     monthlyEarnings DOUBLE NULL,
-                                     PRIMARY KEY (id)
-);
 
 CREATE TABLE dbproiectpao.listener (
                                        id INT NOT NULL,
@@ -34,6 +15,24 @@ CREATE TABLE dbproiectpao.listener (
                                        hasPaid BOOLEAN,
                                        monthlySubscription DOUBLE DEFAULT 12.99,
                                        PRIMARY KEY (id)
+);
+CREATE TABLE dbproiectpao.artist (
+                                     id INT NOT NULL,
+                                     name VARCHAR(100) NULL,
+                                     email VARCHAR(100) NULL,
+                                     password VARCHAR(100) NULL,
+                                     genre VARCHAR(50) NULL,
+                                     monthlyEarnings DOUBLE NULL,
+                                     PRIMARY KEY (id)
+);
+CREATE TABLE dbproiectpao.album (
+                                    id INT NOT NULL,
+                                    releaseDate VARCHAR(50) NULL,
+                                    genre VARCHAR(50) NULL,
+                                    title VARCHAR(50) NULL,
+                                    userId INT NOT NULL,
+                                    PRIMARY KEY (id),
+                                    FOREIGN KEY (userId) REFERENCES artist(id)
 );
 
 CREATE TABLE dbproiectpao.playlist (

@@ -64,6 +64,7 @@ public class PlaylistDao implements DaoInterface<Playlist>{
     }
     @Override
     public void delete(int id) throws SQLException {
+
         String deletePlaylistSongsSql = "DELETE FROM dbproiectpao.playlist_song WHERE idPlaylist = ?";
         try (PreparedStatement statement = connection.prepareStatement(deletePlaylistSongsSql)) {
             statement.setInt(1, id);
