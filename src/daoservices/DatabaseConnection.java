@@ -9,7 +9,7 @@ public class DatabaseConnection {
 
     public static Connection getConnection() throws SQLException {
         if(connection == null){
-            connection = DriverManager.getConnection("jdbc:mysql://localhost/proiect", "root", "mysql");
+            connection = DriverManager.getConnection("jdbc:mysql://localhost/dbproiectpao", "root", "mysql");
         }
         return connection;
     }
