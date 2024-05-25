@@ -54,7 +54,7 @@ public class PlaylistDao implements DaoInterface<Playlist>{
     @Override
     public void update(Playlist playlist, int id) throws SQLException{
         String sql = "UPDATE dbproiectpao.playlist a set a.id = ? , a.userId = ?" +
-                " , where a.id = ?";
+                " where a.id = ?";
         try(PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setInt(1, playlist.getPlaylistId());
             preparedStatement.setInt(2, playlist.getUserId());

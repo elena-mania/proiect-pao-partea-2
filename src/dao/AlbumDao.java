@@ -60,8 +60,7 @@ public class AlbumDao implements DaoInterface<Album>{
     }
     @Override
     public void update(Album album, int id) throws SQLException{
-        String sql = "UPDATE dbproiectpao.album a set a.id = ? , a.releaseDate=?, a.genre=?, a.title=?, a.userId = ?" +
-                " , where a.id = ?";
+        String sql = "UPDATE dbproiectpao.album a set a.id = ? , a.releaseDate=?, a.genre=?, a.title=?, a.userId = ? where a.id = ?";
         try(PreparedStatement preparedStatement = connection.prepareStatement(sql);) {
             preparedStatement.setInt(1, album.getPlaylistId());
             preparedStatement.setString(2, album.getReleaseDate());
