@@ -82,17 +82,18 @@ public class ListenerDao implements DaoInterface<Listener>{
 
     @Override
     public void delete(int id) throws SQLException {
+        //cand stergem un user trebuie sa-i stergem si playlist urile si dependintele din tabelul asociativ playlist_song
+        deleteListsByListenerId(id);
+
         String sql = "DELETE FROM dbproiectpao.listener WHERE id = ?";
         try(PreparedStatement statement = connection.prepareStatement(sql);) {
             statement.setInt(1, id);
             statement.executeUpdate();
         }
-        //cand stergem un user trebuie sa-i stergem si playlist urile si dependintele din tabelul asociativ playlist_song
-        deleteListsByListenerId(id);
     }
-    private List<Integer> getSongsByListenerId(int listenerId) throws SQLException {
+    private List<Integer> getListsByListenerId(int listenerId) throws SQLException {
         List<Integer> listenerIds = new ArrayList<>();
-        String sql = "SELECT id FROM dbproiectpao.listener WHERE userId = ?";
+        String sql = "SELECT id FROM dbproiectpao.playlist WHERE userId = ?";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, listenerId);
             ResultSet resultSet = statement.executeQuery();
@@ -105,7 +106,7 @@ public class ListenerDao implements DaoInterface<Listener>{
     }
 
     private void deleteListsByListenerId(int listenerId) throws SQLException {
-        List<Integer> listIds = getSongsByListenerId(listenerId);
+        List<Integer> listIds = getListsByListenerId(listenerId);
         // stergem din playlist_song
         String deleteListSongSql = "DELETE FROM dbproiectpao.playlist_song WHERE idPlaylist = ?";
         try (PreparedStatement deleteAlbumSongStatement = connection.prepareStatement(deleteListSongSql)) {
